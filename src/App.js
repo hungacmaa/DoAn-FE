@@ -1,20 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
-import {Route, Routes} from "react-router-dom";
-import Signin from "./page/signin";
-import Signup from "./page/signup";
-import Index from "./page";
+import './App.scss';
+import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import {Navigate, Route, Routes} from "react-router-dom";
+import NavbarComponent from "./components/Navbar/NavbarComponent";
+import Footer from "./components/Footer/Footer";
+import HomePage from "./components/HomePage/HomePage";
+import Component404 from "./errorClient/Component404";
+import Component403 from "./errorClient/Component403";
+import PostDetail from "./components/PostDetail/PostDetail";
+
 
 function App() {
-  return (
-    <>
-      <Routes>
-          <Route path="signin" element={<Signin/>}></Route>
-          <Route path="signup" element={<Signup/>}></Route>
-          <Route path="index" element={<Index/>}></Route>
-      </Routes>
-    </>
-  );
+    return (
+        <div className="App">
+            <NavbarComponent/>
+            <Routes>
+                <Route path={"/"} element={<HomePage/>}/>
+                <Route path={"/posts/:postId"} element={<PostDetail/>}/>
+                <Route path={'*'} element={<Navigate to="/404" replace />}/>
+                <Route path="/404" element={<Component404/>}></Route>
+                <Route path={'/403'} element={<Component403/>}></Route>
+            </Routes>
+            <Footer/>
+        </div>
+    );
 }
 
 export default App;
