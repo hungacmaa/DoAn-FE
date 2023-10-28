@@ -26,7 +26,7 @@ const Navbar = () => {
                     <div className="me-1">
                         <img className="img-fluid" src={icon_house} alt="Icon"/>
                     </div>
-                    <h2 style={{color: "rgb(0,185,142)"}}>LUXURY</h2>
+                    <h2 style={{color: "rgb(0,185,142)"}}>Fashion Trade</h2>
                 </Link>
                 <div className="collapse navbar-collapse">
                     <div className="navbar-nav ms-auto navbar-custom">
