@@ -25,9 +25,9 @@ const Footer = () => {
                     <div className="row g-5">
                         <div className="col-6">
                             <h5 className="text-white mb-4">Về chúng tôi</h5>
-                            <p className="mb-2"><i className="fa fa-map-marker-alt me-3"></i>Số 23, Lô TT01, KĐT Mon City, Mỹ Đình 2, Q. Nam Từ Liêm, HN</p>
-                            <p className="mb-2"><i className="fa fa-phone-alt me-3"></i>0989 534 458</p>
-                            <p className="mb-2"><i className="fa fa-envelope me-3"></i> info@codegym.vn</p>
+                            <p className="mb-2"><i className="fa fa-map-marker-alt me-3"></i>PTIT</p>
+                            <p className="mb-2"><i className="fa fa-phone-alt me-3"></i>0981814426</p>
+                            <p className="mb-2"><i className="fa fa-envelope me-3"></i>hungkojno1@gmail.com</p>
                             <div className="d-flex pt-2">
                                 <a className="btn btn-outline-light btn-social" href=""><i className="fab fa-twitter"></i></a>
                                 <a className="btn btn-outline-light btn-social" href=""><i className="fab fa-facebook-f"></i></a>
@@ -64,7 +64,7 @@ const Footer = () => {
                     <div className="copyright">
                         <div className="row">
                             <div className="col-md-6 text-center text-md-start mb-3 mb-md-0 d-flex">
-                                &copy; 2023, Bản quyền thuộc về <a className="border-bottom nav-link ms-2" href="#">Nhóm 4</a>
+                                &copy; 2023, Bản quyền thuộc về <a className="border-bottom nav-link ms-2" href="#"></a>
                             </div>
                         </div>
                     </div>
