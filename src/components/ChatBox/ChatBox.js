@@ -9,8 +9,13 @@ import {
 import {formatDateTimeMessage} from "../../service/format";
 import image_default from '../../image/user-image.png';
 import {WebSocketContext} from "../WebSocket/WebSocketProvider";
-import {listUserAndUnreadMessage, searchUsersMessage} from "../../service/accountService";
-import {useNavigate} from "react-router-dom";
+import {
+    getAccountById,
+    getPostPinByAccountSellAndAccountBuy,
+    listUserAndUnreadMessage,
+    searchUsersMessage
+} from "../../service/accountService";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {countUnreadMessage} from "../../redux/reducer/accountSlice";
 
 const ChatBox = () => {
@@ -20,10 +25,12 @@ const ChatBox = () => {
         const [search, setSearch] = useState("");
         const [usersSearch, setUsersSearch] = useState([]);
         const [selectedAccount, setSelectedAccount] = useState({});
+        const [postPin, setPostPin] = useState({});
         const [render, setRender] = useState(true);
         const chatRef = useRef(null);
         const dispatch = useDispatch();
         const navigate = useNavigate();
+        const {userId} = useParams();
 
         const {sendMessage, messageReceiver} = useContext(WebSocketContext);
 
@@ -32,6 +39,13 @@ const ChatBox = () => {
         useEffect(() => {
             if (_.isEmpty(account)) {
                 navigate("/403");
+            }
+            if (userId) {
+                getAccountById(userId).then(response => {
+                    setSelectedAccount(response.data);
+                }).catch(error => {
+                    console.log(error);
+                })
             }
             window.scrollTo({
                 top: 0,
@@ -65,6 +79,13 @@ const ChatBox = () => {
                     }).catch(error => {
                     console.log(error);
                 })
+
+                getPostPinByAccountSellAndAccountBuy(account.id, selectedAccount.id)
+                    .then(response => {
+                        setPostPin(response.data);
+                    }).catch(error => {
+                    console.log(error);
+                })
             }
         }, [selectedAccount, render, messageReceiver, unreadMessage])
 
@@ -75,18 +96,21 @@ const ChatBox = () => {
         }, [messages])
 
         const handleSendMessage = () => {
-            const data = {
-                content: message,
-                sender: account,
-                receiver: {id: selectedAccount.id}
-            };
-            saveMessage(data).then(response => {
-                sendMessage(response.data);
-                setRender(!render);
-            }).catch(error => {
-                console.log(error)
-            })
-            setMessage("");
+            if(message.trim() != ""){
+                const data = {
+                    content: message,
+                    sender: account,
+                    receiver: {id: selectedAccount.id}
+                };
+                saveMessage(data).then(response => {
+                    sendMessage(response.data);
+                    setRender(!render);
+                }).catch(error => {
+                    console.log(error)
+                })
+                setMessage("");
+            }
+            
         }
 
         const pressEnterToSend = (event) => {
@@ -139,7 +163,7 @@ const ChatBox = () => {
                                                     style={{cursor: 'pointer'}}
                                                     onClick={() => setSelectedAccount(item)}>
                                                     <img src={item.avatar ? item.avatar : image_default} alt="avatar"
-                                                         width={30} style={{height : '30px'}}/>
+                                                         width={30} style={{height: '30px'}}/>
                                                     <div className="ms-2">{item.username}</div>
                                                 </li>
                                             ))
@@ -154,7 +178,7 @@ const ChatBox = () => {
                                             key={user.account.id}
                                             onClick={() => handleSelectedAccount(user.account)}>
                                             <img src={user.account.avatar ? user.account.avatar : image_default}
-                                                 alt="avatar" style={{height : '40px' , width : '40px'}}/>
+                                                 alt="avatar" style={{height: '40px', width: '40px'}}/>
                                             <div className="about">
                                                 <div className="name">{user.account.username}</div>
                                             </div>
@@ -172,26 +196,41 @@ const ChatBox = () => {
                             <div className="chat">
                                 {!_.isEmpty(selectedAccount) ?
                                     <>
-                                        <div className="chat-header clearfix">
-                                            <div className="row">
-                                                <div className="col-lg-6">
-                                                    <span>
+                                        <div className="chat-header clearfix bg-light">
+                                            <div className="row align-items-center">
+                                                <div className="col-8">
+                                                    <Link to={`/profile-user/${selectedAccount.id}`} className="nav-link">
                                                         <img
                                                             src={selectedAccount.avatar ? selectedAccount.avatar : image_default}
-                                                            alt="avatar" style={{width : '50px' , height : '50px'}}/>
-                                                    </span>
-                                                    <div className="chat-about">
-                                                        <h6 className="m-b-0">{selectedAccount.username}</h6>
-                                                        {/*<small>Last seen: 2 hours ago</small>*/}
-                                                    </div>
+                                                            alt="avatar" style={{width: '50px', height: '50px'}}/>
+                                                        <div className="chat-about">
+                                                            <h6 className="m-b-0">{selectedAccount.username}</h6>
+                                                        </div>
+                                                    </Link>
                                                 </div>
+                                                {!_.isEmpty(postPin) &&
+                                                    <Link to={`/posts/${postPin.exchange.postSell?.id}`}
+                                                          className="nav-link col-4 position-relative">
+                                                        <img src={postPin.exchange.postSell?.avatar}
+                                                             className="img-fluid" alt=""
+                                                             style={{
+                                                                 aspectRatio: '1/1',
+                                                                 width: '60px',
+                                                                 borderRadius: '6px'
+                                                             }}/>
+                                                        <span
+                                                            className="ms-2 text-truncate">{postPin.exchange.postSell?.title}</span>
+                                                        <span className="position-absolute top-0 end-0"><i
+                                                            className="fa-solid fa-thumbtack"></i></span>
+                                                    </Link>
+                                                }
                                             </div>
                                         </div>
                                         <div className="chat-history" style={{height: '500px', overflowY: 'auto'}}
                                              ref={chatRef}>
-                                            <ul className="m-b-0">
+                                            <ul className="mb-0">
                                                 {!_.isEmpty(messages) && messages.map(item => {
-                                                    if (item.sender.id !== account.id)
+                                                    if (item.sender.id === account.id)
                                                         return (
                                                             <li className="clearfix" key={item.id}>
                                                                 <div className="message-data text-end">
@@ -200,7 +239,8 @@ const ChatBox = () => {
                                                         </span>
                                                                     <img
                                                                         src={item.sender.avatar ? item.sender.avatar : image_default}
-                                                                        alt="avatar" style={{width : '40px' , height : '40px'}}/>
+                                                                        alt="avatar"
+                                                                        style={{width: '40px', height: '40px'}}/>
                                                                 </div>
                                                                 <div className="message other-message float-right">
                                                                     {item.content}
@@ -240,8 +280,8 @@ const ChatBox = () => {
                                     </>
                                     :
                                     <div className="chat-history text-center fs-5" style={{height: '500px'}}>
-                                        <p className="fs-4 fw-medium">Chào mừng đến với LUXURY</p>
-                                        <p>Đặt phòng nhà, homestay trực tuyến giá rẻ</p>
+                                        <p className="fs-4 fw-medium">Chào mừng đến với EXCHANGE</p>
+                                        <p>Trao đổi sản phẩm nhanh, uy tín</p>
                                     </div>
                                 }
                             </div>

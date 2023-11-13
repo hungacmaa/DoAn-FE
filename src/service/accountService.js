@@ -1,5 +1,6 @@
 import instance from "./axiosConfig";
 import {createAsyncThunk} from "@reduxjs/toolkit";
+import axios from "axios";
 
 const API_URL = "/api/accounts";
 const getAllPostsByAccountId = (accountId, page = 0, size = 5, data) => {
@@ -33,6 +34,26 @@ const getAllExchangesByAccountId = (accountId, page = 0, size = 10, data) => {
     return instance.post(`${API_URL}/${accountId}/exchanges?page=${page}&size=${size}`, data);
 }
 
+const getPostPinByAccountSellAndAccountBuy = (accountSell, accountBuy) => {
+    return instance.get(`${API_URL}/${accountSell}/${accountBuy}/post-pin`);
+}
+
+const createPost = (data) =>{
+    return instance.post(`${API_URL}/posts`, data);
+}
+
+const editPost = (data) =>{
+    return instance.put(`${API_URL}/posts/${data.id}`, data);
+}
+
+const changeLocationAccount = (accountId, data) => {
+    return instance.put(`${API_URL}/${accountId}/location`, data);
+}
+
+const searchAroundHere = (data) => {
+    return axios.post(`http://localhost:8080${API_URL}/search-around-here`, data);
+}
+
 
 export {
     getAllPostsByAccountId,
@@ -42,18 +63,10 @@ export {
     editAccountInformation,
     changeAccountPassword,
     checkPasswordByAccountId,
-    getAllExchangesByAccountId
+    getAllExchangesByAccountId,
+    getPostPinByAccountSellAndAccountBuy,
+    createPost,
+    editPost,
+    changeLocationAccount,
+    searchAroundHere
 };
-
-export const getAccountLogin = createAsyncThunk(
-    "/login",
-    async (account) => {
-        return account;
-    }
-)
-export const removeAccount = createAsyncThunk(
-    "/removeAccount",
-    async () => {
-        return {};
-    }
-)

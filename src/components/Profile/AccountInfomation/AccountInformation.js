@@ -3,7 +3,6 @@ import image_default from '../../../image/user-image.png';
 import {getAccountById} from "../../../service/accountService";
 import EditAccountInformation from "./EditAccountInformation";
 import _ from "lodash";
-import {formatDate} from "../../../service/format";
 import {useSelector} from "react-redux";
 
 const AccountInformation = () => {
@@ -23,7 +22,7 @@ const AccountInformation = () => {
             <div className="row">
                 <div className="col-md-4">
                     <div className="d-flex flex-column align-items-center text-center px-3">
-                        <span className="mb-2">Ảnh đại diện</span>
+                        <span className="mb-3 fw-medium">Ảnh đại diện</span>
                         <img className="rounded-circle" width="200px" height="200px"
                              src={accountInfo.avatar ? accountInfo.avatar : image_default} alt="" id="image"
                              name="avatar"/>
@@ -33,16 +32,16 @@ const AccountInformation = () => {
                     <div className="card">
                         <ul className="list-group list-group-flush">
                             <li className="list-group-item py-3">
-                                Tên đăng nhập: {account.username}
+                                <span className="fw-medium">Tên đăng nhập:</span> {account.username}
                             </li>
                             <li className="list-group-item py-3">
-                                Họ và tên: {accountInfo.name ? accountInfo.name : 'Chưa có thông tin'}
+                                <span className="fw-medium">Họ và tên:</span> {accountInfo.name ? accountInfo.name : 'Chưa có thông tin'}
                             </li>
                             <li className="list-group-item py-3">
-                                Địa chỉ: {accountInfo.address ? accountInfo.address : 'Chưa có thông tin'}
+                                <span className="fw-medium">Địa chỉ:</span> {accountInfo.address ? accountInfo.address : 'Chưa có thông tin'}
                             </li>
                             <li className="list-group-item py-3">
-                                Số điện thoại: {accountInfo.phone ? accountInfo.phone : 'Chưa có thông tin'}
+                                <span className="fw-medium">Số điện thoại:</span> {accountInfo.phone ? accountInfo.phone : 'Chưa có thông tin'}
                             </li>
                         </ul>
                     </div>

@@ -37,7 +37,7 @@ const UserList = () => {
 
     useEffect(() => {
         if (user.id) {
-            getAllPostsByAccountId(user.id, currentPageModal - 1).then(response => {
+            getAllPostsByAccountId(user.id, currentPageModal - 1, 5, {}).then(response => {
                 setPosts(response.data.content);
                 setTotalPagesModal(response.data.totalPages);
             }).catch(error => console.log(error));
@@ -103,7 +103,8 @@ const UserList = () => {
     }
 
     const showUserDetail = (user) => {
-        setUser(user);
+        setUser({...user});
+        setCurrentPageModal(1);
         setShowModal(true);
     }
 
@@ -147,7 +148,7 @@ const UserList = () => {
                 <tr align="center">
                     <th>STT</th>
                     <th>Tên đăng nhập</th>
-                    <th>Email</th>
+                    <th>Vai trò</th>
                     <th>Trạng thái</th>
                     <th>Hành động</th>
                 </tr>
@@ -158,7 +159,7 @@ const UserList = () => {
                         <tr key={item.id} align="center">
                             <td>{index + 1}</td>
                             <td>{item.username}</td>
-                            <td>{item.email}</td>
+                            <td>{item.role.name === "ROLE_ADMIN" ? "Admin" : "Người dùng"}</td>
                             <td>{item.status}</td>
                             <td className="d-flex justify-content-center">
                                 <button
@@ -169,7 +170,7 @@ const UserList = () => {
                                     style={{width: '100px'}}>
                                     Chi tiết
                                 </button>
-                                {item.status === "Bị khóa" ?
+                                {item.status === "Bị khóa" && item.role.name === "ROLE_USER" ?
                                     <button
                                         onClick={() => handleUnBlockAccount(item.id)}
                                         className="btn border border-danger text-danger"
@@ -177,12 +178,16 @@ const UserList = () => {
                                         Mở khóa
                                     </button>
                                     :
-                                    <button
-                                        onClick={() => handleBlockAccount(item.id)}
-                                        className="btn border border-secondary text-secondary"
-                                        style={{width: '100px'}}>
-                                        Khóa
-                                    </button>}
+                                    item.role.name === "ROLE_USER" ?
+                                        <button
+                                            onClick={() => handleBlockAccount(item.id)}
+                                            className="btn border border-secondary text-secondary"
+                                            style={{width: '100px'}}>
+                                            Khóa
+                                        </button>
+                                        :
+                                        null
+                                }
                             </td>
                         </tr>
                     ))
@@ -205,7 +210,7 @@ const UserList = () => {
                     <Modal.Body>
                         <div className="row">
                             <div className="col-4 text-center">
-                                <img src={user.avatar ? user.avatar : image_user} alt="Chưa có avatar" height={200}
+                                <img src={user.avatar ? user.avatar : image_user} alt="" height={200}
                                      width={200}/>
                             </div>
                             <div className="col-7">
@@ -220,8 +225,8 @@ const UserList = () => {
                                         <td>{user.name}</td>
                                     </tr>
                                     <tr>
-                                        <th>Email:</th>
-                                        <td>{user.email}</td>
+                                        <th>Địa chỉ:</th>
+                                        <td>{user.address}</td>
                                     </tr>
                                     <tr>
                                         <th>Mật khẩu:</th>
@@ -241,7 +246,7 @@ const UserList = () => {
                                     <tr align="center" style={{fontSize: '20px'}}>
                                         <th>STT</th>
                                         <th>Tên bài viết</th>
-                                        <th>Danh mục</th>
+                                        <th>Danh mục bài viết</th>
                                         <th>Địa chỉ</th>
                                         <th>Trạng thái</th>
                                     </tr>
@@ -258,8 +263,8 @@ const UserList = () => {
                                                         {post.title}
                                                     </Link>
                                                 </td>
-                                                <td>{post.category}</td>
-                                                <td>{post.address}</td>
+                                                <td>{post.categoryPost}</td>
+                                                <td className="text-truncate">{post.address}</td>
                                                 <td>{post.status}</td>
                                             </tr>
                                         ))

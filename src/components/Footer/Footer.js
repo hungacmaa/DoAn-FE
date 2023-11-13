@@ -20,14 +20,14 @@ const Footer = () => {
     return (
         <>
             {/*Footer Start*/}
-            <div className="container-fluid bg-dark text-white-50 pt-2 mt-5 footer">
+            <div className="container-fluid bg-dark text-white-50 mt-5 footer">
                 <div className="container py-5">
                     <div className="row g-5">
                         <div className="col-6">
                             <h5 className="text-white mb-4">Về chúng tôi</h5>
-                            <p className="mb-2"><i className="fa fa-map-marker-alt me-3"></i>Hà Nội</p>
-                            <p className="mb-2"><i className="fa fa-phone-alt me-3"></i>0981814426</p>
-                            <p className="mb-2"><i className="fa fa-envelope me-3"></i>HUNGNV.B19CN301@stu.ptit.edu.vn</p>
+                            <p className="mb-2"><i className="fa fa-map-marker-alt me-3"></i></p>
+                            <p className="mb-2"><i className="fa fa-phone-alt me-3"></i></p>
+                            <p className="mb-2"><i className="fa fa-envelope me-3"></i></p>
                             <div className="d-flex pt-2">
                                 <a className="btn btn-outline-light btn-social" href=""><i className="fab fa-twitter"></i></a>
                                 <a className="btn btn-outline-light btn-social" href=""><i className="fab fa-facebook-f"></i></a>
@@ -39,36 +39,48 @@ const Footer = () => {
                             <h5 className="text-white mb-4"></h5>
                             <div className="row g-2 pt-2">
                                 <div className="col-4">
-                                    <img className="img-fluid rounded bg-light p-1" src={require("../../image/property-1.jpg")} alt=""/>
+                                    <img className="img-fluid rounded bg-light p-1"
+                                         src={require("../../image/image1.jpg")} alt=""
+                                    style={{aspectRatio: '4/3'}}/>
                                 </div>
                                 <div className="col-4">
-                                    <img className="img-fluid rounded bg-light p-1" src={require("../../image/property-2.jpg")} alt=""/>
+                                    <img className="img-fluid rounded bg-light p-1"
+                                         src={require("../../image/image2.jpg")} alt=""
+                                         style={{aspectRatio: '4/3'}}/>
                                 </div>
                                 <div className="col-4">
-                                    <img className="img-fluid rounded bg-light p-1" src={require("../../image/property-3.jpg")} alt=""/>
+                                    <img className="img-fluid rounded bg-light p-1"
+                                         src={require("../../image/image3.jpg")} alt=""
+                                         style={{aspectRatio: '4/3'}}/>
                                 </div>
                                 <div className="col-4">
-                                    <img className="img-fluid rounded bg-light p-1" src={require("../../image/property-4.jpg")} alt=""/>
+                                    <img className="img-fluid rounded bg-light p-1"
+                                         src={require("../../image/image4.jpg")} alt=""
+                                         style={{aspectRatio: '4/3'}}/>
                                 </div>
                                 <div className="col-4">
-                                    <img className="img-fluid rounded bg-light p-1" src={require("../../image/property-5.jpg")} alt=""/>
+                                    <img className="img-fluid rounded bg-light p-1"
+                                         src={require("../../image/image5.jpg")} alt=""
+                                         style={{aspectRatio: '4/3'}}/>
                                 </div>
                                 <div className="col-4">
-                                    <img className="img-fluid rounded bg-light p-1" src={require("../../image/property-6.jpg")} alt=""/>
+                                    <img className="img-fluid rounded bg-light p-1"
+                                         src={require("../../image/image6.jpg")} alt=""
+                                         style={{aspectRatio: '4/3'}}/>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {/* <div className="container">
+                <div className="container">
                     <div className="copyright">
                         <div className="row">
                             <div className="col-md-6 text-center text-md-start mb-3 mb-md-0 d-flex">
-                                &copy; 2023, Bản quyền thuộc về <a className="border-bottom nav-link ms-2" href="#">PTIT</a>
+                                &copy; 2023, Bản quyền thuộc về <a className="border-bottom nav-link ms-2" href="#"></a>
                             </div>
                         </div>
                     </div>
-                </div> */}
+                </div>
             </div>
             {/*Footer End*/}
 
